@@ -5,33 +5,41 @@ Start-Transcript -Path $PWD\logs\Scoop-install"$SYSTEMDATE".log -Append -Force -
 # Use the scoop command to check if scoop is installed, if it does not exist then it will be installed automatically
 function Install-Scoop {
     Try {
-        Write-Host "scoop Installed" -ForegroundColor Green -BackgroundColor Black | scoop --version | Where-Object { $_ -like "*Scoop version*"} > $null
+        Write-Host "scoop Installed" -ForegroundColor Green -BackgroundColor Black | scoop --version | Where-Object { $_ -like "*Scoop version*"}
     }
     Catch {
         Invoke-Expression (new-object net.webclient).downloadstring('https://ghproxy.com/raw.githubusercontent.com/duzyn/scoop-cn/master/install.ps1')
     }
 }
 
+Install-Scoop
+
 # Required software to install scoop
 function Install-App {
+    $GSUDO = 'https://ghproxy.com/raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/gsudo.json'
     $7ZIP = 'https://ghproxy.com/raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/7zip.json'
-    $APPS = (Get-Content "$PWD\app\appinstaller.txt")
+    $APPCURRENT = (Get-Content "${PWD}\app\appinstallation_currentuser.txt")
+    $APPGLOBAL = (Get-Content "${PWD}\app\appinstallation_globaluser.txt")
     $REPO = 'https://gitcode.net/mirrors/ScoopInstaller/Scoop'
     # Installation
-    Try {
-        Write-Host "7-Zip Installed" -ForegroundColor Green -BackgroundColor Black | 7z | Where-Object { $_ -like "*7-Zip*" } > $null
-        Write-Host "gsudo Installed" -ForegroundColor Green -BackgroundColor Black | gsudo --version | Where-Object { $_ -like "*gsudo*" } > $null
-        Write-Host "aria2 Installed" -ForegroundColor Green -BackgroundColor Black | aria2c --version | Where-Object { $_ -like "*aria2 version*" } > $null
+    try {
+      Write-Host "7-Zip Installed" -ForegroundColor Green -BackgroundColor Black | 7z | Where-Object { ${PSItem} -like "*7-Zip*" }
+      Write-Host "gsudo Installed" -ForegroundColor Green -BackgroundColor Black | gsudo --version | Where-Object { ${PSItem} -like "*gsudo*" }
+      Write-Host "aria2 Installed" -ForegroundColor Green -BackgroundColor Black | aria2c --version | Where-Object { ${PSItem} -like "*aria2 version*" }
     }
-    Catch {
-        scoop install "$7ZIP"
-        scoop install "$APPS"
+    catch {
+      scoop install "${GSUDO}"
+      scoop install "${7ZIP}"
+      scoop install "${APPCURRENT}"
+      gsudo scoop install "${APPGLOBAL}" --global
     }
     # Add repository and update
-    scoop config SCOOP_REPO "$REPO"
+    scoop config SCOOP_REPO "${REPO}"
     scoop bucket rm main
     scoop update
-}
+  }
+
+Install-App
 
 # Add available bucket
 function Install-Bucket {
@@ -58,17 +66,23 @@ function Install-Bucket {
     # Example：$MAIN | ForEach-Object -Begin {Write-Output "add main"} -Process {scoop bucket add main "$_"} -End {Write-Output "ok"}    
 }
 
+Install-Bucket
+
 # Installing custom software
 function Install-Software {
     . "$PSScriptRoot\scoopbackup\backups\backup-*.ps1"
     . "$PSScriptRoot\scoopbackup\backups\backup-*.bat"
 }
 
+Install-Software
+
 # Backup all software installed by scoop
 function Backup-Scoop {
     . "$PSScriptRoot\scoopbackup\scoop-backup.ps1"
     . "$PSScriptRoot\scoopbackup\scoop-backup.ps1" --compress
 }
+
+Backup-Scoop
 
 # The following is the foreach loop enumeration method
 <# foreach ($MAINS in $MAIN)
@@ -107,8 +121,3 @@ foreach ($VERSIONSS in $VERSIONS)
 } #>
 
 # Use function
-Install-Scoop
-Install-App
-Install-Bucket
-Install-Software
-Backup-Scoop
