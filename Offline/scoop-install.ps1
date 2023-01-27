@@ -4,31 +4,31 @@ Start-Transcript -Path ${PWD}\logs\${SYSDATE}-Scoop_install.log -Append -Force -
 
 # Use the scoop command to check if scoop is installed, if it does not exist then it will be installed automatically
 function Install-Scoop {
-    $EMPTY = "[ \f\n\r\t\v]"
-    $NCP = "[a-zA-Z]:\\"
-    $CURRENTUSER = (Read-Host -Prompt 'Please Enter The Current-User Installation Path ("C:\Scoop"e.g.)')
-    $GLOBALUSER = (Read-Host -Prompt 'Please Enter The Global-User Installation Path ("C:\ScoopGlobal"e.g.)')
-    $DEFAULTCURRENTUSER = "${env:USERPROFILE}\Scoop"
-    $DEFAULTGLOBALUSER = "${env:ProgramData}\ScoopGlobal"
+  $EMPTY = "[ \f\n\r\t\v]"
+  $NCP = "[a-zA-Z]:\\"
+  $CURRENTUSER = (Read-Host -Prompt 'Please Enter The Current-User Installation Path ("C:\Scoop"e.g.)')
+  $GLOBALUSER = (Read-Host -Prompt 'Please Enter The Global-User Installation Path ("C:\ScoopGlobal"e.g.)')
+  $DEFAULTCURRENTUSER = "${env:USERPROFILE}\Scoop"
+  $DEFAULTGLOBALUSER = "${env:ProgramData}\ScoopGlobal"
 
-    try {
-        Write-Host "scoop Installed" -ForegroundColor Green -BackgroundColor Black | scoop --version
+  try {
+    Write-Host "scoop Installed" -ForegroundColor Green -BackgroundColor Black | scoop --version
+  }
+  catch {
+    if (${CURRENTUSER}, ${GLOBALUSER} -imatch ${NCP}) { 
+      Write-Host "The Path Of Your Installation Is ${CURRENTUSER}, ${GLOBALUSER}" -ForegroundColor Green -BackgroundColor Black
+      . "${PSScriptRoot}\Installation\install.ps1" -ScoopDir ${CURRENTUSER} -ScoopGlobalDir ${GLOBALUSER} -NoProxy
+    } 
+    elseif (${CURRENTUSER}, ${GLOBALUSER} -imatch ${EMPTY}) {
+      Write-Host "The Path Of Your Installation Is ${DEFAULTCURRENTUSER}, ${DEFAULTGLOBALUSER}" -ForegroundColor Blue -BackgroundColor Black
+      . "${PSScriptRoot}\Installation\install.ps1" -ScoopDir ${DEFAULTCURRENTUSER} -ScoopGlobalDir ${DEFAULTGLOBALUSER} -NoProxy
     }
-    catch {
-        if (${CURRENTUSER}, ${GLOBALUSER} -imatch ${NCP}) { 
-            Write-Host "The Path Of Your Installation Is ${CURRENTUSER}, ${GLOBALUSER}" -ForegroundColor Green -BackgroundColor Black
-            . "${PSScriptRoot}\Installation\install.ps1" -ScoopDir ${CURRENTUSER} -ScoopGlobalDir ${GLOBALUSER} -NoProxy
-        } 
-        elseif (${CURRENTUSER}, ${GLOBALUSER} -imatch ${EMPTY}) {
-            Write-Host "The Path Of Your Installation Is ${DEFAULTCURRENTUSER}, ${DEFAULTGLOBALUSER}" -ForegroundColor Blue -BackgroundColor Black
-            . "${PSScriptRoot}\Installation\install.ps1" -ScoopDir ${DEFAULTCURRENTUSER} -ScoopGlobalDir ${DEFAULTGLOBALUSER} -NoProxy
-        }
-        else {
-            Clear-Host
-            Write-Host "Wrong Format, Please Follow The Prompts To Enter The Correct Format Path, If You Want To Install To The "Default Location" You Can Enter "Space"" -ForegroundColor Red -BackgroundColor Black
-            powershell -Command . ${PSCommandPath}
-        }
+    else {
+      Clear-Host
+      Write-Host "Wrong Format, Please Follow The Prompts To Enter The Correct Format Path, If You Want To Install To The 'Default Location' You Can Enter 'Space'" -ForegroundColor Red -BackgroundColor Black
+      powershell -Command . ${PSCommandPath}
     }
+  }
 }
 
 Install-Scoop
