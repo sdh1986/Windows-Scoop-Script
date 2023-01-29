@@ -10,14 +10,14 @@ $supported_arguments = @(
 
 # parse various default path settings
 $compressed = passed($supported_arguments[1])
-$default_filename = "backup-$(Get-Date -f yyMMdd)"
+$default_filename = "uninstall-$(Get-Date -f yyMMdd)"
 $default_file = "$default_filename" + $(if ($compressed) { ".bat" } else { ".ps1" })
-$default_destination = "$psscriptroot\backups\$default_file"
+$default_destination = "$psscriptroot\uninstallation\$default_file"
 $destination = $default_destination
 
 # check for help arguments
 if (passed($supported_arguments[0])) {
-    Write-Host "Usage: scoop-backup [flags] [destination_folder] `n"
+    Write-Host "Usage: scoop-uninstall [flags] [destination_folder] `n"
     Write-Host "Default destination: $default_destination `n"
 
     $supported_arguments | ForEach-Object {
@@ -41,7 +41,7 @@ $global:arguments = $arguments | Where-Object {
 # complain about unrecognized arguments and abort if found
 if ($arguments.Count -ne 0) {
     complain "unrecognized arguments: $arguments"
-    complain "see: 'scoop-backup --help'"
+    complain "see: 'scoop-uninstall --help'"
     break
 }
 
@@ -71,21 +71,20 @@ if (($apps | Measure-Object).Count -gt 0) {
     $apps | ForEach-Object {
         $info = install_info $_ (Select-CurrentVersion -AppName $_ -Global:$false) $false
         if ($info.url) { $info.url } else { "$($info.bucket)/$_" }
-    } | ForEach-Object { append "scoop install $_" }
+    } | ForEach-Object { append "scoop uninstall $_" }
 }
 
 # next, we install global apps
 $globals = installed_apps $true
 if (($globals | Measure-Object).Count -gt 0) {
-    append 'scoop install main/gsudo'
+    append 'scoop uninstall main/gsudo'
 
     # installing each app on a new line is, unfortunately, more resilient
-    append ("gsudo powershell -Command {`nscoop install --global " + (($globals | ForEach-Object {
+    append ("gsudo powershell -Command {`nscoop uninstall --global " + (($globals | ForEach-Object {
                     $info = install_info $_ (Select-CurrentVersion -AppName $_ -Global:$true) $true
                     if ($info.url) { $($info.url) } else { "$($info.bucket)/$_" }
-                }) -Join "`nscoop install --global ") + "`n}")
+                }) -Join "`nscoop uninstall --global ") + "`n}")
 }
-
 
 # writing the final output
 New-Item $destination -Force | Out-Null
@@ -101,4 +100,4 @@ else {
     Add-Content -Path $destination -Value $cmd
 }
 
-Write-Output "backed up to: $destination"
+Write-Output "uninstall to: $destination"

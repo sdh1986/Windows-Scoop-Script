@@ -17,16 +17,16 @@ function Install-Scoop {
   catch {
     if (${CURRENTUSER}, ${GLOBALUSER} -imatch ${NCP}) { 
       Write-Host "The Path Of Your Installation Is ${CURRENTUSER}, ${GLOBALUSER}" -ForegroundColor Green -BackgroundColor Black
-      . "${PSScriptRoot}\Installation\install.ps1" -ScoopDir ${CURRENTUSER} -ScoopGlobalDir ${GLOBALUSER} -NoProxy
+      . "${PSScriptRoot}\Installation\install.ps1" -ScoopDir "${CURRENTUSER}" -ScoopGlobalDir "${GLOBALUSER}" -NoProxy | Out-Null
     } 
     elseif (${CURRENTUSER}, ${GLOBALUSER} -imatch ${EMPTY}) {
       Write-Host "The Path Of Your Installation Is ${DEFAULTCURRENTUSER}, ${DEFAULTGLOBALUSER}" -ForegroundColor Blue -BackgroundColor Black
-      . "${PSScriptRoot}\Installation\install.ps1" -ScoopDir ${DEFAULTCURRENTUSER} -ScoopGlobalDir ${DEFAULTGLOBALUSER} -NoProxy
+      . "${PSScriptRoot}\Installation\install.ps1" -ScoopDir "${DEFAULTCURRENTUSER}" -ScoopGlobalDir "${DEFAULTGLOBALUSER}" -NoProxy | Out-Null
     }
     else {
       Clear-Host
       Write-Host "Wrong Format, Please Follow The Prompts To Enter The Correct Format Path, If You Want To Install To The 'Default Location' You Can Enter 'Space'" -ForegroundColor Red -BackgroundColor Black
-      powershell -Command . ${PSCommandPath}
+      powershell -Command . "${PSCommandPath}"
     }
   }
 }
@@ -35,14 +35,14 @@ Install-Scoop
 
 # Required software to install scoop
 function Install-App {
+  $REPO = 'https://gitcode.net/mirrors/ScoopInstaller/Scoop'
   $GSUDO = 'https://ghproxy.com/raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/gsudo.json'
   $7ZIP = 'https://ghproxy.com/raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/7zip.json'
   $APPCURRENT = (Get-Content "${PWD}\app\appinstallation_currentuser.txt")
-  $APPGLOBAL = (Get-Content "${PWD}\app\appinstallation_globaluser.txt")
-  $REPO = 'https://gitcode.net/mirrors/ScoopInstaller/Scoop'
   # Installation
   try {
     Write-Host "7-Zip Installed" -ForegroundColor Green -BackgroundColor Black | 7z | Where-Object { ${PSItem} -like "*7-Zip*" }
+    Write-Host "git Installed" -ForegroundColor Green -BackgroundColor Black | git --version | Where-Object { ${PSItem} -like "*git*" }
     Write-Host "gsudo Installed" -ForegroundColor Green -BackgroundColor Black | gsudo --version | Where-Object { ${PSItem} -like "*gsudo*" }
     Write-Host "aria2 Installed" -ForegroundColor Green -BackgroundColor Black | aria2c --version | Where-Object { ${PSItem} -like "*aria2 version*" }
   }
@@ -50,7 +50,6 @@ function Install-App {
     scoop install "${GSUDO}"
     scoop install "${7ZIP}"
     scoop install "${APPCURRENT}"
-    gsudo scoop install "${APPGLOBAL}" --global
   }
   # Add repository and update
   scoop config SCOOP_REPO "${REPO}"
