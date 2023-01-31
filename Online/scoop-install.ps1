@@ -5,7 +5,7 @@ Start-Transcript -Path $PWD\logs\Scoop-install"$SYSTEMDATE".log -Append -Force -
 # Use the scoop command to check if scoop is installed, if it does not exist then it will be installed automatically
 function Install-Scoop {
     Try {
-        Write-Host "scoop Installed" -ForegroundColor Green -BackgroundColor Black | scoop --version | Where-Object { $_ -like "*Scoop version*"}
+        Write-Host "scoop Installed" -ForegroundColor Green -BackgroundColor Black | scoop --version
     }
     Catch {
         Invoke-Expression (new-object net.webclient).downloadstring('https://ghproxy.com/raw.githubusercontent.com/duzyn/scoop-cn/master/install.ps1')
@@ -83,41 +83,3 @@ function Backup-Scoop {
 }
 
 Backup-Scoop
-
-# The following is the foreach loop enumeration method
-<# foreach ($MAINS in $MAIN)
-{
-    scoop bucket add main $MAINS
-}
-
-foreach ($JAVAS in $JAVA)
-{
-    scoop bucket add java $JAVAS
-}
-
-foreach ($EXTRASS in $EXTRAS)
-{
-    scoop bucket add extras $EXTRASS
-}
-
-foreach ($DORADOS in $DORADO)
-{
-    scoop bucket add dorados $DORADOS
-}
-
-foreach ($DODORZS in $DODORZ)
-{
-    scoop bucket add dodorz $DODORZS
-}
-
-foreach ($SCOOPCNS in $SCOOPCN)
-{
-    scoop bucket add scoopcn $SCOOPCNS
-}
-
-foreach ($VERSIONSS in $VERSIONS)
-{
-    scoop bucket add versions $VERSIONSS
-} #>
-
-# Use function

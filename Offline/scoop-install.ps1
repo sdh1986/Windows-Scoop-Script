@@ -36,10 +36,11 @@ Install-Scoop
 
 # Required software to install scoop.
 function Install-App {
-  $REPO = 'https://gitcode.net/mirrors/ScoopInstaller/Scoop'
-  $GSUDO = 'https://ghproxy.com/raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/gsudo.json'
+  $REPO = 'https://ghproxy.com/github.com/ScoopInstaller/Scoop'
   $7ZIP = 'https://ghproxy.com/raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/7zip.json'
+  $GSUDO = 'https://ghproxy.com/raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/gsudo.json'
   $APPCURRENT = (Get-Content "${PWD}\app\appinstallation_currentuser.txt")
+
   # Installation
   try {
     Write-Host '7-Zip Installed' -ForegroundColor Green -BackgroundColor Black | 7z | Where-Object { ${PSItem} -like "*7-Zip*" }
@@ -62,10 +63,10 @@ Install-App
 
 # Add available bucket.
 function Install-Bucket {
-  $BUCKET_FILES = @("main", "java", "extras", "dorado", "scoopcn", "versions")
+  $BUCKET_FILES = @("main", "java", "extras", "dorado", "scoopcn", "scoop-cn", "versions")
   
   foreach (${BUCKET} in ${BUCKET_FILES}) {
-    ${BUCKET_CONTENT} = Get-Content "${PWD}\src\${BUCKET}.txt"
+    $BUCKET_CONTENT = Get-Content "${PWD}\src\${BUCKET}.txt"
     ${BUCKET_CONTENT} | ForEach-Object { scoop bucket rm ${BUCKET} ${PSItem} }
     ${BUCKET_CONTENT} | ForEach-Object { scoop bucket add ${BUCKET} ${PSItem} }
   }
@@ -103,6 +104,8 @@ function Backup-Scoop {
 
 Backup-Scoop
 
+
+
 # 下面是foreach循环枚举方式
 <# foreach ($MAINS in $MAIN)
   {
@@ -133,4 +136,34 @@ foreach ($VERSIONSS in $VERSIONS)
   {
     scoop bucket add versions $VERSIONSS
   }
-} #>
+}
+
+Install-Bucket #>
+
+
+# Add available bucket
+<# function Install-Bucket {
+  $MAIN = (Get-Content "${PWD}\src\main.txt")
+  $JAVA = (Get-Content "${PWD}\src\java.txt")
+  $EXTRAS = (Get-Content "${PWD}\src\extras.txt")
+  $DORADO = (Get-Content "${PWD}\src\dorado.txt")
+  $SCOOPCN = (Get-Content "${PWD}\src\scoopcn.txt")
+  $VERSIONS = (Get-Content "${PWD}\src\versions.txt")
+  # Delete bucket
+  $MAIN | ForEach-Object { scoop bucket rm main "${PSItem}" }
+  $JAVA | ForEach-Object { scoop bucket rm java "${PSItem}" }
+  $EXTRAS | ForEach-Object { scoop bucket rm extras "${PSItem}" }
+  $DORADO | ForEach-Object { scoop bucket rm dorado "${PSItem}" }
+  $SCOOPCN | ForEach-Object { scoop bucket rm scoopcn "${PSItem}" }
+  $VERSIONS | ForEach-Object { scoop bucket rm versions "${PSItem}" }
+  # Add bucket
+  $MAIN | ForEach-Object { scoop bucket add main "${PSItem}" }
+  $JAVA | ForEach-Object { scoop bucket add java "${PSItem}" }
+  $EXTRAS | ForEach-Object { scoop bucket add extras "${PSItem}" }
+  $DORADO | ForEach-Object { scoop bucket add dorado "${PSItem}" }
+  $SCOOPCN | ForEach-Object { scoop bucket add scoopcn "${PSItem}" }
+  $VERSIONS | ForEach-Object { scoop bucket add versions "${PSItem}" }
+  # Example：$MAIN | ForEach-Object -Begin {Write-Output "add main"} -Process {scoop bucket add main "$_"} -End {Write-Output "ok"}
+}
+
+Install-Bucket #>
