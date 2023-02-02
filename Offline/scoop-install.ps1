@@ -24,7 +24,7 @@ function Install-Scoop {
     }
     else {
       Clear-Host
-      Write-Host "Wrong Format, Please Follow The Prompts To Enter The Correct Format Path, If You Want To Install To The 'Default Location' You Can Enter 'Spaces'." -ForegroundColor Red -BackgroundColor Black
+      Write-Host "Wrong Format, Please Follow The Prompts To Enter The Correct Format Path, If You Want To Install To The 'Default_Installation' You Can Enter 'Spacebar'." -ForegroundColor Red -BackgroundColor Black
       powershell -Command . ${PSCommandPath}
       return
     }
