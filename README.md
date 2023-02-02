@@ -12,7 +12,7 @@
 irm https://gitee.com/sdhsparke/windows-scoop-installer/raw/master/Oline-ScoopInstaller.ps1 | iex
 ```
 
-## 参与贡献：
+## 相关参考：
 参考 scoop.sh 官网
 
 参考 github作者 KNOXDEV/scoop-backup
