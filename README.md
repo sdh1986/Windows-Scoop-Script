@@ -13,6 +13,6 @@ irm https://gitee.com/sdhsparke/windows-scoop-installer/raw/master/Oline-ScoopIn
 ```
 
 ## 参与贡献：
-参考scoop.sh官网脚本
+参考 scoop.sh 官网
 
-参考github作者KNOXDEV/scoop-backup
+参考 github作者 KNOXDEV/scoop-backup
