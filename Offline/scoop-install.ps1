@@ -44,7 +44,7 @@ function Install-App {
   # Installation
   try {
     Write-Host '7-Zip Installed' -ForegroundColor Green -BackgroundColor Black | 7z | Where-Object { ${PSItem} -like "*7-Zip*" }
-    Write-Host 'git Installed' -ForegroundColor Green -BackgroundColor Black | git --version | Where-Object { ${PSItem} -like "*git*" }
+    Write-Host 'git   Installed' -ForegroundColor Green -BackgroundColor Black | git --version | Where-Object { ${PSItem} -like "*git*" }
     Write-Host 'gsudo Installed' -ForegroundColor Green -BackgroundColor Black | gsudo --version | Where-Object { ${PSItem} -like "*gsudo*" }
     Write-Host 'aria2 Installed' -ForegroundColor Green -BackgroundColor Black | aria2c --version | Where-Object { ${PSItem} -like "*aria2 version*" }
   }

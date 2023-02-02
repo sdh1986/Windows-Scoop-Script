@@ -6,7 +6,7 @@ Start-Transcript -Path $LOG_FILE -Append -Force -NoClobber | Out-Null
 # Use the scoop command to check if scoop is installed, if it does not exist then it will be installed automatically.('Invoke-Expression' = '&' = '.')
 function Install-Scoop {
     try {
-        Write-Host "scoop Installed" -ForegroundColor Green -BackgroundColor Black | scoop --version
+        Write-Host "scoop Installed." -ForegroundColor Green -BackgroundColor Black | scoop --version
     }
     catch {
         $CURRENT_USER = Read-Host -Prompt 'Please Enter The Current-User Installation Path (e.g. C:\Scoop)'
@@ -43,10 +43,10 @@ function Install-App {
   
     # Installation
     try {
-        Write-Host '7-Zip Installed' -ForegroundColor Green -BackgroundColor Black | 7z | Where-Object { ${PSItem} -like "*7-Zip*" }
-        Write-Host 'git Installed' -ForegroundColor Green -BackgroundColor Black | git --version | Where-Object { ${PSItem} -like "*git*" }
-        Write-Host 'gsudo Installed' -ForegroundColor Green -BackgroundColor Black | gsudo --version | Where-Object { ${PSItem} -like "*gsudo*" }
-        Write-Host 'aria2 Installed' -ForegroundColor Green -BackgroundColor Black | aria2c --version | Where-Object { ${PSItem} -like "*aria2 version*" }
+        Write-Host '7-Zip Installed.' -ForegroundColor Green -BackgroundColor Black | 7z | Where-Object { ${PSItem} -like "*7-Zip*" }
+        Write-Host 'git   Installed.' -ForegroundColor Green -BackgroundColor Black | git --version | Where-Object { ${PSItem} -like "*git*" }
+        Write-Host 'gsudo Installed.' -ForegroundColor Green -BackgroundColor Black | gsudo --version | Where-Object { ${PSItem} -like "*gsudo*" }
+        Write-Host 'aria2 Installed.' -ForegroundColor Green -BackgroundColor Black | aria2c --version | Where-Object { ${PSItem} -like "*aria2 version*" }
     }
     catch {
         scoop install ${GSUDO}
