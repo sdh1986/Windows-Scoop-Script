@@ -9,7 +9,7 @@
 ## 安装教程:
 使用PowerShell5.1或更高版本运行下面命令
 ```
-irm https://gitee.com/sdhsparke/windows-scoop-installer/raw/master/Oline-ScoopInstaller.ps1 | iex
+irm https://gitee.com/sdhsparke/windows-scoop-installer/raw/master/Online-ScoopInstaller.ps1 | iex
 ```
 
 ## 相关参考：
