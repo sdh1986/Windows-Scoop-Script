@@ -63,7 +63,7 @@ Install-App
 
 # Add available bucket.
 function Install-Bucket {
-    $BUCKET_FILES = @("main", "java", "extras", "dorado", "scoopcn", "scoop-cn", "versions")
+    $BUCKET_FILES = @("php", "main", "java", "extras", "dorado", "nirsoft", "scoopcn", "versions", "nonportable", "sysinternals", "scoop-cn", "nerd-fonts", "nirsoft-alternative")
     
     foreach (${BUCKET} in ${BUCKET_FILES}) {
         $BUCKET_CONTENT = Get-Content "${PWD}\src\${BUCKET}.txt"
