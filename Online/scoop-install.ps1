@@ -36,10 +36,9 @@ Install-Scoop
 
 # Required software to install scoop.
 function Install-App {
-    $REPO = 'https://ghproxy.com/github.com/ScoopInstaller/Scoop'
-    $7ZIP = 'https://ghproxy.com/raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/7zip.json'
-    $GSUDO = 'https://ghproxy.com/raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/gsudo.json'
-    $APPCURRENT = (Get-Content "${PWD}\app\appinstallation_currentuser.txt")
+    $REPO = 'https://gitee.com/scoop-bucket/scoop'
+    $7ZIP = 'https://gitee.com/sdhsparke/sparke/raw/master/bucket/7zip.json'
+    $APPCURRENT = (Get-Content "$PWD\app\appinstallation_currentuser.txt")
   
     # Installation
     try {
@@ -49,14 +48,14 @@ function Install-App {
         Write-Host 'aria2 Installed.' -ForegroundColor Green -BackgroundColor Black | aria2c --version | Where-Object { ${PSItem} -like "*aria2 version*" }
     }
     catch {
-        scoop install ${GSUDO}
         scoop install ${7ZIP}
         scoop install ${APPCURRENT}
     }
     # Add repository and update.
     scoop config SCOOP_REPO ${REPO}
-    scoop bucket rm main
     scoop update
+    scoop bucket rm main
+    scoop bucket add main https://ghproxy.com/github.com/ScoopInstaller/Main
 }
 
 Install-App
