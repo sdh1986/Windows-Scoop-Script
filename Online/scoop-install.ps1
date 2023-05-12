@@ -1,6 +1,6 @@
 # Turn on logging, default location C:\Users\sdh\Documents, here we use Path to specify to the current script location.
 $DATE = (Get-Date -Format 'yyyy-MM-dd')
-$LOG_FILE = "$PWD\logs\$DATE_Scoop-install.log"
+$LOG_FILE = "$PWD\logs\${DATE}_Scoop-install.log"
 Start-Transcript -Path ${LOG_FILE} -Append -Force -NoClobber | Out-Null
 
 # Use the scoop command to check if scoop is installed, if it does not exist then it will be installed automatically.('Invoke-Expression' = '&' = '.')
