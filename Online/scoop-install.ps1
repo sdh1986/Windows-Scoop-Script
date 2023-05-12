@@ -53,19 +53,19 @@ function Install-App {
     }
     # Add repository and update.
     scoop config SCOOP_REPO ${REPO}
-    scoop update
     scoop bucket rm main
-    scoop bucket add main https://ghproxy.com/github.com/ScoopInstaller/Main
+    scoop update
 }
 
 Install-App
 
 # Add available bucket.
 function Install-Bucket {
-    $BUCKET_FILES = @("sparke", "php", "main", 
-        "java", "extras", "dorado", "nirsoft", 
-        "scoopcn", "versions", "nonportable", "sysinternals",
-        "scoop-cn", "nerd-fonts", "nirsoft-alternative"
+    $BUCKET_FILES = @("sparke", "php", "main",
+        "java", "extras", "dorado", "nirsoft",
+        "scoopcn", "versions", "nonportable",
+        "sysinternals", "scoop-cn", "nerd-fonts",
+        "nirsoft-alternative"
     )
     
     foreach ($BUCKET in ${BUCKET_FILES}) {
