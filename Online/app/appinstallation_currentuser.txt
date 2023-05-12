@@ -1,2 +1,3 @@
-https://ghproxy.com/raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/git.json
-https://ghproxy.com/raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/aria2.json
+https://gitee.com/sdhsparke/sparke/raw/master/bucket/git.json
+https://gitee.com/sdhsparke/sparke/raw/master/bucket/gsudo.json
+https://gitee.com/sdhsparke/sparke/raw/master/bucket/aria2.json
