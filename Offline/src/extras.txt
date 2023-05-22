@@ -1,2 +1,0 @@
-https://gitcode.net/mirrors/ScoopInstaller/Extras
-https://mirror.nju.edu.cn/git/scoop-extras.git

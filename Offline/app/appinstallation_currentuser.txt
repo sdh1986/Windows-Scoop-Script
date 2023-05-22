@@ -1,3 +1,0 @@
-https://gitee.com/sdhsparke/sparke/raw/master/bucket/git.json
-https://gitee.com/sdhsparke/sparke/raw/master/bucket/gsudo.json
-https://gitee.com/sdhsparke/sparke/raw/master/bucket/aria2.json

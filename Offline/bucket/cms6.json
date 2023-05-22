@@ -1,0 +1,15 @@
+{
+    "version": "6.0",
+    "description": "CMS6.0",
+    "homepage": "https://softshgr.duckdns.org/software/buckets",
+    "license": "Unknown",
+    "url": "https://softshgr.duckdns.org/software/buckets/cms6.7z#dl.7z",
+    "hash": "3308401533081234C0B7640CC622DFE4B65C45A0C611C30BE84C9EE92E9E83E6",
+    "bin": "cms6.exe",
+    "shortcuts": [
+        [
+          "cms6.exe",
+          "cms6"
+        ]
+    ]
+}

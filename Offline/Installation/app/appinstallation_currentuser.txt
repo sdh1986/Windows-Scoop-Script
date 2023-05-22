@@ -1,0 +1,3 @@
+https://ghproxy.com/raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/aria2.json
+https://ghproxy.com/raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/dark.json
+https://ghproxy.com/raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/innounp.json

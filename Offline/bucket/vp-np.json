@@ -1,0 +1,22 @@
+{
+    "version": "10.0.0.5050",
+    "description": "Asiainfo Vulnerability Protection Agent",
+    "homepage": "https://10.62.24.86:4119/SignIn.screen?session=invalidate",
+    "license": "Unknown",
+    "architecture": {
+        "64bit": {
+            "url": "https://vpshgr.duckdns.org/software/agent/Windows/x86_64#/VpSetup.msi_",
+            "hash": "A51F1C906B02D9869105C76758DD14BEB5583DD5ADA8F92F58ABF662180E8B9B"
+        },
+        "32bit": {
+            "url": "https://vpshgr.duckdns.org/software/agent/Windows/x86_64#/VpSetup.msi_",
+            "hash": "A51F1C906B02D9869105C76758DD14BEB5583DD5ADA8F92F58ABF662180E8B9B"
+        }
+    },
+    "installer": {
+        "script": "Invoke-ExternalCommand msiexec -ArgumentList @('/i', \"$dir\\VpSetup.msi_\", '/qn') -RunAs | Out-Null"
+    },
+    "uninstaller": {
+        "script": "Invoke-ExternalCommand msiexec -ArgumentList @('/x', \"$dir\\VpSetup.msi_\", '/qn') -RunAs | Out-Null"
+    }
+}
