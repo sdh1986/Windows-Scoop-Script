@@ -17,7 +17,7 @@ function Install-Depend {
   catch {
     scoop install ${GSUDO}
     gsudo reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v ConsentPromptBehaviorAdmin /t REG_DWORD /d 0 /f
-    irm https://bucketshgr.duckdns.org/shendonghu/Install-Software/-/raw/master/Fastgithub-Installer.ps1 | iex
+    irm https://gitee.com/sdhsparke/online-installer/raw/master/Online-FastGithubInstaller.ps1 | iex
     gsudo scoop install ${7ZIP} --global
     gsudo scoop install ${GIT} --global
     scoop install ${APP}
