@@ -2,7 +2,7 @@
 function Install-Depend {
   $GSUDO = 'https://ghproxy.com/raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/gsudo.json'
   $7ZIP = 'https://raw.githubusercontent.com/ScoopInstaller/Main/master/bucket/7zip.json'
-  $GIT  = 'https://ghproxy.com/raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/git.json'
+  $GIT = 'https://ghproxy.com/raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/git.json'
   $APP = (Get-Content "$PSScriptRoot\app\appinstallation_currentuser.txt")
 
   # Installation.
@@ -22,10 +22,10 @@ function Install-Depend {
     gsudo scoop install ${GIT} --global
     scoop install ${APP}
   }
-    # Reload variables in current window.
-    $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
-    git config --global http.sslverify false
-    scoop update
+  # Reload variables in current window.
+  $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
+  git config --global http.sslverify false
+  scoop update
 }
 
 Install-Depend
