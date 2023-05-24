@@ -1,3 +1,3 @@
 @echo off
 powershell -Command Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-powershell -Command %~dpn0.ps1
+powershell -Command %~dpn0 .ps1
