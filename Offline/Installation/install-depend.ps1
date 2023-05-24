@@ -22,7 +22,7 @@ function Install-Depend {
     gsudo scoop install ${GIT} --global
     scoop install ${APP}
   }
-    $env:Path += ";$env:ProgramData\ScoopGlobal\apps\git\current\bin"
+    $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
     git config --global http.sslverify false
     scoop update
 }

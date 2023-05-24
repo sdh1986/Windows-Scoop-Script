@@ -4,7 +4,7 @@ function Backup-Scoop {
     $BACKUP_SCOOP = "$PSScriptRoot\scoopbackup\scoop-backup.ps1"
     & ${BACKUP_SCOOP}
     & ${BACKUP_SCOOP} --compress
-    Write-Host 'Backup Scoop Completed Successfully.' -ForegroundColor Green -BackgroundColor Black
+    Write-Host 'Backup Scoop Completed Successfully.' -ForegroundColor Green
   }
   catch {
     Write-Error "An Error Occurred While Backup Soop: $($_.Exception.Message)"
