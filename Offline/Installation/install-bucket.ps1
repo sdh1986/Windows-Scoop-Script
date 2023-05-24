@@ -1,6 +1,6 @@
 # Add available bucket.
 function Install-Bucket {
-  $BUCKET_FILES = @("sparke", "php", "main",
+  $BUCKET_FILES = @("php", "main",
     "java", "extras", "dorado", "nirsoft",
     "scoopcn", "versions", "nonportable",
     "sysinternals", "scoop-cn", "nerd-fonts",
