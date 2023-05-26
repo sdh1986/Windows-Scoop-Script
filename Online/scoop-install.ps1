@@ -33,4 +33,6 @@ function Install-Scoop {
 
 Install-Scoop
 
+# Use the scoop command to check if scoop is installed, if it does not exist then it will be installed automatically.('Invoke-Expression' = '&' = '.').
+
 & "$PSScriptRoot\installation\install-depend.ps1"
