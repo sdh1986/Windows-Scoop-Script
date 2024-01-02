@@ -1,4 +1,4 @@
-https://ghproxy.com/github.com/ScoopInstaller/Main
+https://mirror.ghproxy.com/https://github.com/ScoopInstaller/Main
 https://gitcode.net/mirrors/ScoopInstaller/Main
 https://e.coding.net/glsnames/scoop/scoopMain.git
 https://mirror.nju.edu.cn/git/scoop-main.gitx

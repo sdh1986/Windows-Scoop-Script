@@ -11,7 +11,6 @@ function Install-Bucket {
     $BUCKET_CONTENT | ForEach-Object { scoop bucket rm $BUCKET $PSItem }
     $BUCKET_CONTENT | ForEach-Object { scoop bucket add $BUCKET $PSItem }
   }
-  & $env:TEMP\Fastgithub_Installer\fastgithub-uninstaller.cmd
   gsudo Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name 'LongPathsEnabled' -Value 1
   gsudo Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock' -Name 'AllowDevelopmentWithoutDevLicense' -Value 1
   git config --global http.sslverify true

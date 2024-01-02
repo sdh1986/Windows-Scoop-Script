@@ -1,8 +1,9 @@
 # Required software to install scoop.
 function Install-Depend {
-  $GSUDO = 'https://ghproxy.com/raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/gsudo.json'
-  $7ZIP = 'https://raw.githubusercontent.com/ScoopInstaller/Main/master/bucket/7zip.json'
-  $GIT = 'https://ghproxy.com/raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/git.json'
+  $GSUDO = 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/gsudo.json'
+  $7ZIP = 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/7zip.json'
+  $GIT = 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/git.json'
+  $REPO = 'https://mirror.ghproxy.com/https://github.com/ScoopInstaller/Scoop'
   $APP = (Get-Content "$PSScriptRoot\app\appinstallation_currentuser.txt")
 
   # Installation.
@@ -17,13 +18,16 @@ function Install-Depend {
   catch {
     scoop install ${GSUDO}
     gsudo reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v ConsentPromptBehaviorAdmin /t REG_DWORD /d 0 /f
-    Invoke-RestMethod https://gitee.com/sdhsparke/online-installer/raw/master/Online-FastGithubInstaller.ps1 | Invoke-Expression
+    gsudo . "$PSScriptRoot\install-githubhosts.ps1"
     gsudo scoop install ${7ZIP} --global
     gsudo scoop install ${GIT} --global
     scoop install ${APP}
+    scoop bucket rm main
+    scoop config scoop_repo ${REPO}
   }
   # Reload variables in current window.
   $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
+  # Due to GIT TLS/SSL not being able to pass through self-signed certificates, it must be turned off.
   git config --global http.sslverify false
   scoop update
 }

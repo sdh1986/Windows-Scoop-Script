@@ -1,1 +1,1 @@
-https://ghproxy.com/github.com/duzyn/scoop-cn
+https://mirror.ghproxy.com/https://github.com/duzyn/scoop-cn
