@@ -1,1 +1,1 @@
-https://github.com/matthewjberger/scoop-nerd-fonts
+https://mirror.ghproxy.com/https://github.com/matthewjberger/scoop-nerd-fonts.git

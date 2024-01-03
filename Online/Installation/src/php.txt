@@ -1,1 +1,1 @@
-https://github.com/ScoopInstaller/PHP
+https://mirror.ghproxy.com/https://github.com/ScoopInstaller/PHP.git
