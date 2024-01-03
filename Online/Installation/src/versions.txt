@@ -1,1 +1,1 @@
-https://mirror.ghproxy.com/https://gitcode.net/mirrors/ScoopInstaller/Versions.git
+https://mirror.ghproxy.com/https://github.com/ScoopInstaller/Versions.git
