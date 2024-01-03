@@ -1,2 +1,1 @@
-https://gitee.com/scoop-bucket/dorado.git
-https://github.com/chawyehsu/dorado
+https://github.com/chawyehsu/dorado.git

@@ -645,8 +645,11 @@ $SCOOP_CONFIG_FILE = "$SCOOP_CONFIG_HOME\scoop\config.json"
 $SCOOP_PACKAGE_REPO = "$PSScriptRoot\Scoop-master.zip"
 $SCOOP_MAIN_BUCKET_REPO = "$PSScriptRoot\Main-master.zip"
 
-$SCOOP_PACKAGE_GIT_REPO = "https://ghproxy.com/github.com/ScoopInstaller/Scoop.git"
-$SCOOP_MAIN_BUCKET_GIT_REPO = "https://ghproxy.com/github.com/ScoopInstaller/Main.git"
+#$SCOOP_PACKAGE_REPO = "https://mirror.ghproxy.com/https://github.com/ScoopInstaller/Scoop/archive/master.zip"
+#$SCOOP_MAIN_BUCKET_REPO = "https://mirror.ghproxy.com/https://github.com/ScoopInstaller/Main/archive/master.zip"
+
+$SCOOP_PACKAGE_GIT_REPO = "https://mirror.ghproxy.com/https://github.com/ScoopInstaller/Scoop.git"
+$SCOOP_MAIN_BUCKET_GIT_REPO = "https://mirror.ghproxy.com/https://github.com/ScoopInstaller/Main.git"
 
 # Quit if anything goes wrong
 $oldErrorActionPreference = $ErrorActionPreference
