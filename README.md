@@ -13,6 +13,7 @@
 使用 PowerShell5.1 或更高版本运行下面命令
 
 ```
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 irm https://gitee.com/sdhsparke/windows-scoop-installer/raw/master/Online-ScoopInstaller.ps1 | iex ; exit
 ```
 
