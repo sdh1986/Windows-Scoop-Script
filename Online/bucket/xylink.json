@@ -1,0 +1,37 @@
+{
+    "version": "3.8.0.12067",
+    "description": "小鱼易连会议软件",
+    "homepage": "https://www.xylink.com",
+    "license": "Unknown",
+    "url": "https://cdn.xylink.com/as/150130/new/XYLinkClient-3.8.0.12067.exe#/dl.7z",
+    "hash": "359C091FED3CA991D19CB2F0A9E3EB8E9BC9E1514FFC7EBDE06B1F1CAF27EF9C",
+    "pre_install": [
+        "if (Test-Path \"$env:AppData\\XYWinQT\") {",
+        "    info '[Persistent data]: Copying user data...'",
+        "    ensure \"$dir\\User Data\" | Out-Null",
+        "    Copy-Item \"$env:AppData\\XYWinQT\\*\" \"$dir\\User Data\\\" -Recurse -Force -ErrorAction 'SilentlyContinue'",
+        "    Remove-Item \"$env:AppData\\XYWinQT\" -Recurse -Force -ErrorAction 'SilentlyContinue'",
+        "}",
+        "Move-Item \"$dir\\Files\\*\" \"$dir\\\""
+    ],
+    "post_install": "Remove-Item \"$dir\\Application Data\", \"$dir\\Common\" -Recurse -Force -ErrorAction 'SilentlyContinue'",
+    "shortcuts": [
+        [
+            "XYWinQT.exe",
+            "小鱼易连",
+            "--user-data-dir=\"$dir\\User Data\""
+        ]
+    ],
+    "persist": "User Data",
+    "checkver": {
+        "url": "https://www.xylink.com/download",
+        "regex": "\"pcLink\":\"https?://cdn\\.xylink\\.com/as/150130/new(?<extra>.*)/XYLinkClient(?<main>\\d+\\.\\d+\\.\\d+)/XYLinkClient.*\\.(?<patch>\\d+)\\.exe",
+        "replace": "${main}.${patch}"
+    },
+    "autoupdate": {
+        "url": "https://cdn.xylink.com/as/150130/new$matchExtra/$matchMain/XYLinkClient-$version.exe#/dl.7z",
+        "hash": {
+            "mode": "download"
+        }
+    }
+}
