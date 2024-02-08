@@ -13,6 +13,6 @@
         "regex": "XYLink(?<version>[\\d.]+)\\.exe"
     },
     "autoupdate": {
-        "url": "https://cdn.xylink.com/as/150130/new$majorVersion.$minorVersion.$patchVersion/XYLinkClient-$version.exe#/XYLink.exe",
+        "url": "https://cdn.xylink.com/as/150130/new$majorVersion.$minorVersion.$patchVersion/XYLinkClient-$version.exe#/XYLink.exe"
     }
 }
