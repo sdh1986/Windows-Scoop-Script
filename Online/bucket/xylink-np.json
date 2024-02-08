@@ -1,0 +1,21 @@
+{
+    "version": "3.8.0.12067",
+    "description": "小鱼易连会议软件",
+    "homepage": "https://www.xylink.com",
+    "license": "Unknown",
+    "url": "https://cdn.xylink.com/as/150130/new/XYLinkClient-3.8.0.12067.exe#/XYLink.exe",
+    "hash": "359C091FED3CA991D19CB2F0A9E3EB8E9BC9E1514FFC7EBDE06B1F1CAF27EF9C",
+    "installer": {
+        "script": "Start-Process -FilePath \"$dir\\$fname\" -Verb RunAs | Wait-Process"
+    },
+    "checkver": {
+        "url": "https://www.xylink.com/download/",
+        "regex": "XYLink(?<version>[\\d.]+)\\.exe"
+    },
+    "autoupdate": {
+        "url": "https://cdn.xylink.com/as/150130/new$majorVersion.$minorVersion.$patchVersion/XYLinkClient-$version.exe#/XYLink.exe",
+        "hash": {
+            "mode": "download"
+        }
+    }
+}
