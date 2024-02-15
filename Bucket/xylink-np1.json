@@ -17,9 +17,13 @@
     },
     "checkver": {
         "url": "https://www.xylink.com/download",
-        "regex": "XYLinkClient-([\\d.]+).exe"
+        "regex": "\"pcLink\":\"https?://cdn\\.xylink\\.com/as/150130/new(?<extra>.*)/XYLinkClient-(?<main>\\d+\\.\\d+\\.\\d+)/XYLinkClient-.*\\.(?<patch>\\d+)\\.exe",
+        "replace": "${main}.${patch}"
     },
     "autoupdate": {
-        "url": "https://cdn.xylink.com/as/150130/new/XYLinkClient-$version.exe#/XYLink.exe"
+        "url": "https://cdn.xylink.com/as/150130/new$matchExtra/$matchMain/XYLinkClient-$version.exe#/XYLink.exe",
+        "hash": {
+            "mode": "download"
+        }
     }
 }
