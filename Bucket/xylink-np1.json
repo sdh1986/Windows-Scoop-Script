@@ -16,7 +16,7 @@
         "script": "Start-Process -Wait -WindowStyle Hidden cmd \"/c call `\"$dir\\unins000.exe`\" -s\" -Verb RunAs"
     },
     "checkver": {
-        "url": "https://www.xylink.com/download",
+        "url": "https://www.xylink.com/download#",
         "regex": "<span class=\"download_version__ju4L_\">V([\\d.]+)</span>"
     },
     "autoupdate": {
