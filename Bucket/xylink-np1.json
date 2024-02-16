@@ -13,7 +13,7 @@
     },
     "post_install": "Copy-Item -Path 'C:\\Program Files (x86)\\XYLink\\XYWinQT\\unins000.dat', 'C:\\Program Files (x86)\\XYLink\\XYWinQT\\unins000.exe' -Destination \"$dir\\\"",
     "uninstaller": {
-        "script": "Start-Process -Wait -WindowStyle Hidden cmd \"/c call `\"$dir\\unins000.exe`\" -s\" -Verb RunAs"
+        "script": "Start-Process -Wait -FilePath `\"$dir\\unins000.exe`\" -ArgumentList \"/VERYSILENT /SUPPRESSMSGBOXES /NORESTART\" -Verb RunAs"
     },
     "checkver": {
         "url": "https://www.xylink.com/download#",
