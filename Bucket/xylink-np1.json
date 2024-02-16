@@ -23,6 +23,7 @@
         "url": "https://cdn.xylink.com/as/150130/new/XYLinkClient-$version.exe#/XYLink.exe",
         "hash": {
             "mode": "download"
-        }
+        },
+        "filename": "XYLinkClient-$version.exe"
     }
 }
