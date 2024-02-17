@@ -7,13 +7,15 @@
     "hash": "359c091fed3ca991d19cb2f0a9e3eb8e9bc9e1514ffc7ebde06b1f1caf27ef9c",
     "installer": {
         "script": [
+            "Import-Module -Name Microsoft.PowerShell.Management",
+            "Import-Module -Name Microsoft.PowerShell.Utility",
             "Start-Process -Wait -FilePath `\"$dir\\XYLink.exe`\" -ArgumentList \"/VERYSILENT /SUPPRESSMSGBOXES /NORESTART\" -Verb RunAs",
             "Remove-Item \"$dir\\XYLink.exe\""
         ]
     },
     "post_install": "Copy-Item -Path 'C:\\Program Files (x86)\\XYLink\\XYWinQT\\unins000.dat', 'C:\\Program Files (x86)\\XYLink\\XYWinQT\\unins000.exe' -Destination \"$dir\\\"",
     "uninstaller": {
-        "script": "Start-Process -Wait -FilePath `\"$dir\\unins000.exe`\" -ArgumentList \"/VERYSILENT /SUPPRESSMSGBOXES /NORESTART\" -Verb RunAs"
+        "script": "Import-Module -Name Microsoft.PowerShell.Management\nStart-Process -Wait -FilePath `\"$dir\\unins000.exe`\" -ArgumentList \"/VERYSILENT /SUPPRESSMSGBOXES /NORESTART\" -Verb RunAs"
     },
     "checkver": {
         "url": "https://www.xylink.com/download",
