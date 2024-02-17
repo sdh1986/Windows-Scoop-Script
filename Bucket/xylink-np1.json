@@ -19,13 +19,11 @@
     },
     "checkver": {
         "url": "https://www.xylink.com/download",
-        "regex": "V(?<version>\\d+\\.\\d+\\.\\d+.\\d\\d\\d\\d\\d)",
-        "replace": "${version}"
+        "regex": "<span class=\"download_version__ju4L_\">V([\\d.]+)</span>"
     },
     "autoupdate": {
-        "url": "https://cdn.xylink.com/as/150130/new/XYLinkClient-$version.exe#/XYLink.exe",
         "hash": {
-            "mode": "download"
+            "url": "https://cdn.xylink.com/as/checksums/XYLinkClient-$version.sha256"
         }
     }
 }
