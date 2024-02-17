@@ -18,9 +18,7 @@
     "checkver": {
         "url": "https://www.xylink.com/download#",
         "regex": "V(?<version>\\d+\\.\\d+\\.\\d+)",
-        "script": [
-            "$version = $Matches['version']"
-        ]
+        "replace": "${version}"
     },
     "autoupdate": {
         "url": "https://cdn.xylink.com/as/150130/new/XYLinkClient-$version.exe#/XYLink.exe",
