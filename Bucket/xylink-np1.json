@@ -16,9 +16,11 @@
         "script": "Start-Process -Wait -FilePath `\"$dir\\unins000.exe`\" -ArgumentList \"/VERYSILENT /SUPPRESSMSGBOXES /NORESTART\" -Verb RunAs"
     },
     "checkver": {
-        "url": "https://www.xylink.com/download#",
-        "regex": "V(?<version>\\d+\\.\\d+\\.\\d+.\\d\\d\\d\\d\\d)",
-        "replace": "${version}"
+        "checkver": {
+            "url": "https://www.xylink.com/download",
+            "regex": "V(?<version>\\d+\\.\\d+\\.\\d+.\\d\\d\\d\\d\\d)",
+            "replace": "${version}"
+        }
     },
     "autoupdate": {
         "url": "https://cdn.xylink.com/as/150130/new/XYLinkClient-$version.exe#/XYLink.exe",
