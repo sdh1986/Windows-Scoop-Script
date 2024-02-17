@@ -4,7 +4,7 @@
     "homepage": "https://www.xylink.com",
     "license": "Unknown",
     "url": "https://cdn.xylink.com/as/150130/new/XYLinkClient-3.8.0.12067.exe#/XYLink.exe",
-    "hash": "359C091FED3CA991D19CB2F0A9E3EB8E9BC9E1514FFC7EBDE06B1F1CAF27EF9C",
+    "hash": "359c091fed3ca991d19cb2f0a9e3eb8e9bc9e1514ffc7ebde06b1f1caf27ef9c",
     "installer": {
         "script": [
             "Start-Process -Wait -FilePath `\"$dir\\XYLink.exe`\" -ArgumentList \"/VERYSILENT /SUPPRESSMSGBOXES /NORESTART\" -Verb RunAs",
@@ -20,6 +20,8 @@
         "regex": "<span class=\"download_version__ju4L_\">V([\\d.]+)</span>"
     },
     "autoupdate": {
-        "url": "https://cdn.xylink.com/as/150130/new/XYLinkClient-$version.exe#/XYLink.exe"
+        "hash": {
+            "url": "https://cdn.xylink.com/as/150130/new/XYLinkClient-$version.exe#/XYLink.exe"
+        }
     }
 }
