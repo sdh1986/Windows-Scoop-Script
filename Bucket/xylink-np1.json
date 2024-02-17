@@ -17,7 +17,7 @@
     },
     "checkver": {
         "url": "https://www.xylink.com/download#",
-        "regex": "最新版本：V(?<version>\\d+\\.\\d+\\.\\d+)(?:\\s*\\(x86\\))?"
+        "regex": "V(?<version>\\d+\\.\\d+\\.\\d+)"
     },
     "autoupdate": {
         "url": "https://cdn.xylink.com/as/150130/new/XYLinkClient-$version.exe#/XYLink.exe",
