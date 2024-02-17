@@ -17,7 +17,7 @@
     },
     "checkver": {
         "url": "https://www.xylink.com/download#",
-        "regex": "V(?<version>\\d+\\.\\d+\\.\\d+)",
+        "regex": "V(?<version>\\d+\\.\\d+\\.\\d+.\\d\\d\\d\\d\\d)",
         "replace": "${version}"
     },
     "autoupdate": {
