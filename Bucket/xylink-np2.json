@@ -24,6 +24,9 @@
         "hash": {
             "mode": "download"
         },
-        "filename": "XYLinkClient-$version.exe"
+        "filename": "XYLinkClient-$version.exe",
+        "headers": {
+            "Referer": "https://www.xylink.com/download#"
+        }
     }
 }
