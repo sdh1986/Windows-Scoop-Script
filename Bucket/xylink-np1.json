@@ -23,7 +23,7 @@
     },
     "autoupdate": {
         "hash": {
-            "url": "https://cdn.xylink.com/as/checksums/XYLinkClient-$version.sha256"
+            "url": "https://cdn.xylink.com/as/150130/new/XYLinkClient-3.9.0.20771.exe#/XYLink.exe"
         }
     }
 }
