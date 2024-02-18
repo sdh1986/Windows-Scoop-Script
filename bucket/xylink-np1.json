@@ -17,7 +17,7 @@
     },
     "checkver": {
         "url": "https://www.xylink.com/download",
-        "regex": "<span class=\"download_version__ju4L_\">V([\\d.]+)</span>"
+        "regex": "Windows客户端下载</span><div class=\"download_clientInfo__QfbPL download_flexCenter__Aj5sa\"><span class=\"download_version__ju4L_\">V([\\d.]+)"
     },
     "autoupdate": {
         "hash": {
