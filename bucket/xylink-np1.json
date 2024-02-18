@@ -18,7 +18,6 @@
     "checkver": {
         "url": "https://www.xylink.com/download",
         "regex": "<span class=\"download_version__ju4L_\">V([\\d.]+)</span>",
-        "replace": "${version}"
     },
     "autoupdate": {
         "hash": {
