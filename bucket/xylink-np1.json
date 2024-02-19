@@ -20,8 +20,9 @@
         "regex": "V\\d.\\d+.\\d+\\.\\d+"
     },
     "autoupdate": {
+        "url": "https://cdn.xylink.com/as/150130/new/XYLinkClient-$version.exe#/XYLink.exe",
         "hash": {
-            "url": "https://cdn.xylink.com/as/150130/new/XYLinkClient-$version.exe#/XYLink.exe"
+            "mode": "download"
         }
     }
 }
