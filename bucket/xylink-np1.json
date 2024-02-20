@@ -17,10 +17,11 @@
     },
     "checkver": {
         "url": "https://www.xylink.com/download",
-        "regex": "V\\d.\\d+.\\d+\\.\\d+"
+        "regex": "V(?<main>\\d+\\.\\d+\\.\\d+\\.\\d+)",
+        "replace": "${main}"
     },
     "autoupdate": {
-        "url": "https://cdn.xylink.com/as/150130/new/XYLinkClient-$version.exe#/XYLink.exe",
+        "url": "https://cdn.xylink.com/as/150130/new/$matchMain/XYLinkClient-$version.exe#/XYLink.exe",
         "hash": {
             "mode": "download"
         }
