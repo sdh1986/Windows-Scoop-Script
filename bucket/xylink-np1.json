@@ -17,8 +17,8 @@
     },
     "checkver": {
         "url": "https://www.xylink.com/download",
-        "jsonpath": "$.V",
-        "regex": "3\\.\\d+\\.\\d+\\.\\d+"
+        "jsonpath": "$.V3",
+        "regex": "\\.\\d+\\.\\d+\\.\\d+"
     },
     "autoupdate": {
         "url": "https://cdn.xylink.com/as/150130/new/XYLinkClient-$version.exe#/XYLink.exe",
