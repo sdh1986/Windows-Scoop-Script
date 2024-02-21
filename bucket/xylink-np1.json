@@ -17,7 +17,6 @@
     },
     "checkver": {
         "url": "https://cloud.xylink.com/api/rest/en/version?platform=desktop_pc&vcsSource=home",
-        "jsonpath": "$.V3",
         "regex": "\"appUrl\":\"https://cdn.xylink.com/as/\\d+/new/XYLinkClient-(?<patch>\\d+.\\d+\\.\\d+\\.\\d+).exe\\?r=(?<timestamp>\\d+)",
         "replace": "${patch}${timestamp}"
     },
