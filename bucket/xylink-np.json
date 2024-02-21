@@ -4,7 +4,7 @@
     "homepage": "https://www.xylink.com",
     "license": "Unknown",
     "url": "https://cdn.xylink.com/as/150130/new/XYLinkClient-3.8.0.12067.exe#/XYLink.exe",
-    "hash": "359C091FED3CA991D19CB2F0A9E3EB8E9BC9E1514FFC7EBDE06B1F1CAF27EF9C",
+    "hash": "359c091fed3ca991d19cb2f0a9e3eb8e9bc9e1514ffc7ebde06b1f1caf27ef9c",
     "installer": {
         "script": [
             "Start-Process -Wait -FilePath `\"$dir\\XYLink.exe`\" -ArgumentList \"/VERYSILENT /SUPPRESSMSGBOXES /NORESTART\" -Verb RunAs",
@@ -16,12 +16,12 @@
         "script": "Start-Process -Wait -FilePath `\"$dir\\unins000.exe`\" -ArgumentList \"/VERYSILENT /SUPPRESSMSGBOXES /NORESTART\" -Verb RunAs"
     },
     "checkver": {
-        "url": "https://www.xylink.com/download",
-        "regex": "\"pcLink\":\"https?://cdn\\.xylink\\.com/as/150130/new(?<extra>.*)/XYLinkClient-(?<main>\\d+\\.\\d+\\.\\d+)/XYLinkClient-.*\\.(?<patch>\\d+)\\.exe",
-        "replace": "${main}.${patch}"
+        "url": "https://cloud.xylink.com/api/rest/en/version?platform=desktop_pc&vcsSource=home",
+        "regex": "\"appUrl\":\"https://cdn.xylink.com/as/\\d+/new/XYLinkClient-(?<patch>\\d+.\\d+\\.\\d+\\.\\d+).exe",
+        "replace": "${patch}"
     },
     "autoupdate": {
-        "url": "https://cdn.xylink.com/as/150130/new$matchExtra/$matchMain/XYLinkClient-$version.exe#/XYLink.exe",
+        "url": "https://cdn.xylink.com/as/150130/new/XYLinkClient-$version.exe#/XYLink.exe",
         "hash": {
             "mode": "download"
         }
