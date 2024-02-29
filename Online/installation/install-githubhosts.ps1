@@ -7,7 +7,7 @@ function Install-Githubhosts {
     )
 
     # Function to download a file from a URL to a destination
-    function Download-File([string]$Url, [string]$Destination) {
+    function DownloadFile([string]$Url, [string]$Destination) {
         try {
             Invoke-WebRequest -Uri $Url -OutFile $Destination
             return $true
@@ -19,7 +19,7 @@ function Install-Githubhosts {
     }
 
     # Function to check if a file is in use by another process
-    function Check-FileInUse([string]$FilePath) {
+    function CheckFileInUse([string]$FilePath) {
         try {
             $file = [System.io.File]::Open($FilePath, 'Open', 'Read', 'None')
             $file.Close()
@@ -31,23 +31,23 @@ function Install-Githubhosts {
     }
 
     # Function to validate if a line is a valid entry for a hosts file
-    function IsValid-HostEntry([string]$Line) {
+    function IsValidHostEntry([string]$Line) {
         $pattern = '^\d{1,3}(\.\d{1,3}){3}\s+\S+'
         return $Line -match $pattern
     }
 
     # Function to merge the downloaded content with the existing hosts file
-    function Merge-HostsFile([string]$DownloadPath, [string]$HostsPath) {
+    function MergeHostsFile([string]$DownloadPath, [string]$HostsPath) {
         $originalContent = Get-Content $HostsPath
         $downloadedContent = Get-Content $DownloadPath
 
         # Filter and collect valid new entries
-        $validNewEntries = $downloadedContent | Where-Object { IsValid-HostEntry -Line $_ } | Where-Object { $originalContent -notcontains $_ }
+        $validNewEntries = $downloadedContent | Where-Object { IsValidHostEntry -Line $_ } | Where-Object { $originalContent -notcontains $_ }
 
         # Check if there are any valid new entries to add
         if ($validNewEntries.Count -gt 0) {
             # Check if the hosts file is not in use
-            if (-not (Check-FileInUse -FilePath $HostsPath)) {
+            if (-not (CheckFileInUse -FilePath $HostsPath)) {
                 # Backup the original hosts file before making changes
                 $backupPath = "$HostsPath$BackupSuffix"
                 Copy-Item -Path $HostsPath -Destination $backupPath -Force
@@ -69,8 +69,8 @@ function Install-Githubhosts {
     # Main script logic
     $downloadPath = Join-Path -Path $env:TEMP -ChildPath 'hosts.txt'
     # Download the file and proceed if successful
-    if (Download-File -Url $DownloadUrl -Destination $downloadPath) {
-        Merge-HostsFile -DownloadPath $downloadPath -HostsPath $HostsFilePath
+    if (DownloadFile -Url $DownloadUrl -Destination $downloadPath) {
+        MergeHostsFile -DownloadPath $downloadPath -HostsPath $HostsFilePath
     }
     else {
         Write-Host "File download failed."
