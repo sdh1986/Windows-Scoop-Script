@@ -1,9 +1,9 @@
 # Required software to install scoop.
 function Install-Depend {
-  $GSUDO = 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/gsudo.json'
-  $7ZIP = 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/7zip.json'
-  $GIT = 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/git.json'
-  $REPO = 'https://mirror.ghproxy.com/https://github.com/ScoopInstaller/Scoop'
+  $GSUDO = 'https://ghp.ci/https://raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/gsudo.json'
+  $7ZIP = 'https://ghp.ci/https://raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/7zip.json'
+  $GIT = 'https://ghp.ci/https://raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/git.json'
+  $REPO = 'https://ghp.ci/https://github.com/ScoopInstaller/Scoop'
   $APP = (Get-Content "$PSScriptRoot\app\appinstallation_currentuser.txt")
 
   # Solve the problem of 7zip error due to lack of directory
@@ -20,13 +20,13 @@ function Install-Depend {
     New-Item -ItemType "directory" -Path $ScriptsPath
 }
   if (-not (Test-Path $ZipJsonPath)) {
-    Invoke-RestMethod -Uri "https://mirror.ghproxy.com/https://raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/7zip.json" -OutFile $ZipJsonPath
+    Invoke-RestMethod -Uri "https://ghp.ci/https://raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/7zip.json" -OutFile $ZipJsonPath
 }
   if (-not (Test-Path $InstallRegPath)) {
-    Invoke-RestMethod -Uri "https://mirror.ghproxy.com/https://raw.githubusercontent.com/duzyn/scoop-cn/master/scripts/7-zip/install-context.reg" -OutFile $InstallRegPath
+    Invoke-RestMethod -Uri "https://ghp.ci/https://raw.githubusercontent.com/duzyn/scoop-cn/master/scripts/7-zip/install-context.reg" -OutFile $InstallRegPath
 }
   if (-not (Test-Path $UninstallRegPath)) {
-    Invoke-RestMethod -Uri "https://mirror.ghproxy.com/https://raw.githubusercontent.com/duzyn/scoop-cn/master/scripts/7-zip/uninstall-context.reg" -OutFile $UninstallRegPath
+    Invoke-RestMethod -Uri "https://ghp.ci/https://raw.githubusercontent.com/duzyn/scoop-cn/master/scripts/7-zip/uninstall-context.reg" -OutFile $UninstallRegPath
 }
 
   # Installation.
