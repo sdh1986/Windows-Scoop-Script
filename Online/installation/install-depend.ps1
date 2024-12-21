@@ -1,10 +1,10 @@
 # Required software to install scoop.
 function Install-Depend {
-  $BASE_URL = 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/duzyn/scoop-cn/master'
+  $BASE_URL = 'https://ghp.ci/https://raw.githubusercontent.com/duzyn/scoop-cn/master'
   $GSUDO = "$BASE_URL/bucket/gsudo.json"
   $7ZIP = "$BASE_URL/bucket/7zip.json"
   $GIT = "$BASE_URL/bucket/git.json"
-  $REPO = 'https://mirror.ghproxy.com/https://github.com/ScoopInstaller/Scoop'
+  $REPO = 'https://ghp.ci/https://github.com/ScoopInstaller/Scoop'
   $APP = (Get-Content "$PSScriptRoot\app\appinstallation_currentuser.txt")
 
   # Function to check and create directory if not exists
