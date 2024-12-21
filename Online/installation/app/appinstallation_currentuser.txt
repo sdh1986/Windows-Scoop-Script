@@ -1,3 +1,3 @@
-https://mirror.ghproxy.com/https://raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/aria2.json
-https://mirror.ghproxy.com/https://raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/dark.json
-https://mirror.ghproxy.com/https://raw.githubusercontent.com/duzyn/scoop-cn/master/bucket/innounp.json
+https://ghp.ci/https://raw.githubusercontent.com/duzyn/scoop-cn/refs/heads/master/bucket/aria2.json
+https://ghp.ci/https://raw.githubusercontent.com/duzyn/scoop-cn/refs/heads/master/bucket/dark.json
+https://ghp.ci/https://raw.githubusercontent.com/duzyn/scoop-cn/refs/heads/master/bucket/innounp.json
