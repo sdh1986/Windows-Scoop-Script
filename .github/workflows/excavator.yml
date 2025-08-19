@@ -1,21 +1,47 @@
 name: Excavator
+
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 0 * * *'
-  workflow_dispatch:
 
 jobs:
-  excavate:
-    runs-on: ubuntu-latest
+  update:
+    runs-on: windows-latest
+
     steps:
-      - uses: actions/checkout@v4
-      
-      - name: Excavator
-        uses: ScoopInstaller/Excavator@master
-        
-      - name: Commit changes
-        uses: EndBug/add-and-commit@v9
+      - name: Checkout repository
+        uses: actions/checkout@v3
         with:
-          message: '自动更新: ${{ github.run_id }}'
-          add: 'bucket/*.json'
-          default_author: github_actions
+          token: ${{ secrets.PAT }}
+
+      - name: Set up Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        shell: bash
+
+      - name: Install Scoop
+        run: |
+          Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+          Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+        shell: pwsh
+
+      - name: Add local bucket
+        run: scoop bucket add ${{ github.repository_owner }} ${{ github.workspace }}\bucket
+        shell: pwsh
+
+      - name: Run scoop checkver
+        id: checkver
+        run: |
+          $changed_files = scoop checkver -a -q */* | ForEach-Object { $_.app } | Out-String -Stream
+          echo "::set-output name=changed_files::$changed_files"
+        shell: pwsh
+
+      - name: Commit and push if changed
+        if: steps.checkver.outputs.changed_files
+        run: |
+          git add bucket/*.json
+          git commit -m "Auto update apps" -m "${{ steps.checkver.outputs.changed_files }}"
+          git push
+        shell: bash
