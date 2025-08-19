@@ -1,0 +1,72 @@
+name: Check Version and Update
+on:
+  schedule:
+    - cron: '0 1 * * *'
+    - cron: '0 13 * * *'
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'bucket/*.json'
+
+jobs:
+  check-version:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup PowerShell
+        shell: pwsh
+        run: |
+          Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+          
+      - name: Install Scoop
+        shell: pwsh
+        run: |
+          iwr -useb get.scoop.sh | iex
+          scoop install git
+          
+      - name: Clone Scoop repository for scripts
+        shell: pwsh
+        run: |
+          git clone https://github.com/ScoopInstaller/Scoop.git $env:TEMP\scoop-core
+          
+      - name: Check and Update Versions
+        shell: pwsh
+        run: |
+          $checkver = "$env:TEMP\scoop-core\bin\checkver.ps1"
+          $bucket = "${{ github.workspace }}\bucket"
+          
+          $manifests = Get-ChildItem "$bucket\*.json" | Select-Object -ExpandProperty BaseName
+          
+          Write-Host "Found manifests: $($manifests -join ', ')"
+          
+          foreach ($app in $manifests) {
+            Write-Host "Checking $app for updates..." -ForegroundColor Green
+            
+            try {
+              & $checkver -App $app -Dir $bucket -Update
+            } catch {
+              Write-Host "Error checking $app`: $_" -ForegroundColor Yellow
+            }
+          }
+          
+      - name: Commit and Push
+        shell: pwsh
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          $changes = git status --porcelain
+          if ($changes) {
+            Write-Host "Changes detected, committing..."
+            git add bucket/*.json
+            $date = Get-Date -Format "yyyy-MM-dd HH:mm"
+            git commit -m "Auto-update: $date"
+            git push
+          } else {
+            Write-Host "No changes detected"
+          }
