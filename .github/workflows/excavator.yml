@@ -1,9 +1,8 @@
 name: Excavator
 on:
   schedule:
-    # 每天北京时间早上 8:00 自动运行
     - cron: '0 0 * * *'
-  workflow_dispatch:  # 这个让你可以手动运行
+  workflow_dispatch:
 
 jobs:
   excavate:
