@@ -1,1 +1,92 @@
+name: Excavator
 
+on:
+  schedule:
+    # 每6小时运行一次
+    - cron: '30 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      app:
+        description: 'App to update (blank for all)'
+        required: false
+
+jobs:
+  excavate:
+    name: Auto-Update
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup
+        shell: pwsh
+        run: |
+          # 创建必要的目录
+          New-Item -ItemType Directory -Force -Path "bin" | Out-Null
+          
+          # 下载 Scoop 脚本
+          $scripts = @{
+            'checkver.ps1' = 'https://raw.githubusercontent.com/ScoopInstaller/Scoop/master/bin/checkver.ps1'
+            'auto-pr.ps1' = 'https://raw.githubusercontent.com/ScoopInstaller/Scoop/master/bin/auto-pr.ps1'
+            'formatjson.ps1' = 'https://raw.githubusercontent.com/ScoopInstaller/Scoop/master/bin/formatjson.ps1'
+          }
+          
+          foreach ($script in $scripts.GetEnumerator()) {
+            if (!(Test-Path "bin\$($script.Key)")) {
+              Invoke-WebRequest -Uri $script.Value -OutFile "bin\$($script.Key)"
+            }
+          }
+          
+          # 下载库文件
+          New-Item -ItemType Directory -Force -Path "lib" | Out-Null
+          $libs = @('json', 'manifest', 'autoupdate', 'buckets', 'versions')
+          foreach ($lib in $libs) {
+            $url = "https://raw.githubusercontent.com/ScoopInstaller/Scoop/master/lib/$lib.ps1"
+            Invoke-WebRequest -Uri $url -OutFile "lib\$lib.ps1"
+          }
+      
+      - name: Configure Git
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+      
+      - name: Update Manifests
+        id: update
+        shell: pwsh
+        run: |
+          $app = "${{ github.event.inputs.app }}"
+          
+          # 运行 checkver
+          if ($app) {
+            Write-Host "Updating: $app"
+            & .\bin\checkver.ps1 -App $app -Update
+          } else {
+            Write-Host "Updating all apps"
+            & .\bin\checkver.ps1 -App * -Update
+          }
+          
+          # 格式化 JSON
+          Get-ChildItem bucket\*.json | ForEach-Object {
+            & .\bin\formatjson.ps1 $_
+          }
+          
+          # 检查是否有更改
+          $changes = git diff --name-only bucket/
+          if ($changes) {
+            echo "has_changes=true" >> $env:GITHUB_OUTPUT
+            Write-Host "Updated files:"
+            $changes | ForEach-Object { Write-Host "  - $_" }
+          } else {
+            echo "has_changes=false" >> $env:GITHUB_OUTPUT
+            Write-Host "No updates found"
+          }
+      
+      - name: Commit and Push
+        if: steps.update.outputs.has_changes == 'true'
+        run: |
+          git add bucket/
+          git commit -m "Update: Automated manifest updates"
+          git push
