@@ -1,0 +1,155 @@
+name: Excavator
+
+on:
+  schedule:
+    # Run every day at 2:30 AM UTC
+    - cron: '30 2 * * *'
+  workflow_dispatch:
+    inputs:
+      app:
+        description: 'App name to update (leave empty for all)'
+        required: false
+        default: ''
+
+jobs:
+  excavate:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup Scoop
+        uses: MinoruSekine/setup-scoop@v4
+        with:
+          scoop_checkup: 'true'
+      
+      - name: Install Dependencies
+        run: |
+          scoop install git
+          scoop bucket add main
+      
+      - name: Configure Git
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+      
+      - name: Update Manifests
+        id: excavate
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Continue'
+          
+          # Get the app parameter if provided
+          $app = "${{ github.event.inputs.app }}"
+          
+          # Path to bucket directory
+          $bucketDir = "bucket"
+          
+          if (-not (Test-Path $bucketDir)) {
+            Write-Error "Bucket directory not found!"
+            exit 1
+          }
+          
+          # Install checkver script if not present
+          if (-not (Test-Path "bin\checkver.ps1")) {
+            New-Item -ItemType Directory -Force -Path "bin" | Out-Null
+            Invoke-WebRequest -Uri "https://raw.githubusercontent.com/ScoopInstaller/Scoop/master/bin/checkver.ps1" -OutFile "bin\checkver.ps1"
+          }
+          
+          # Install auto-pr script if not present
+          if (-not (Test-Path "bin\auto-pr.ps1")) {
+            New-Item -ItemType Directory -Force -Path "bin" | Out-Null
+            Invoke-WebRequest -Uri "https://raw.githubusercontent.com/ScoopInstaller/Scoop/master/bin/auto-pr.ps1" -OutFile "bin\auto-pr.ps1"
+          }
+          
+          # Run checkver and auto-update
+          if ($app) {
+            Write-Host "Checking single app: $app"
+            & .\bin\checkver.ps1 -App $app -Update -Force
+          } else {
+            Write-Host "Checking all apps in bucket"
+            & .\bin\checkver.ps1 -Update -Force
+          }
+          
+          # Check if there are changes
+          $changes = git status --porcelain
+          if ($changes) {
+            Write-Host "Changes detected:"
+            Write-Host $changes
+            echo "has_changes=true" >> $env:GITHUB_OUTPUT
+          } else {
+            Write-Host "No changes detected"
+            echo "has_changes=false" >> $env:GITHUB_OUTPUT
+          }
+      
+      - name: Commit and Push Changes
+        if: steps.excavate.outputs.has_changes == 'true'
+        run: |
+          git add .
+          git commit -m "Update: Automated manifest updates [skip ci]"
+          git push origin HEAD:${{ github.ref }}
+      
+      - name: Create Pull Request
+        if: steps.excavate.outputs.has_changes == 'true' && github.event_name == 'schedule'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Update: Automated manifest updates"
+          title: "🤖 Automated Manifest Updates"
+          body: |
+            This PR contains automated updates to app manifests.
+            
+            ## Changes
+            - Updated app versions based on checkver results
+            - Updated download URLs and hashes
+            
+            Please review the changes before merging.
+          branch: auto-update-${{ github.run_number }}
+          delete-branch: true
+          labels: |
+            auto-update
+            bot
+
+  test-manifests:
+    needs: excavate
+    if: needs.excavate.outputs.has_changes == 'true'
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Updated Code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+      
+      - name: Setup Scoop
+        uses: MinoruSekine/setup-scoop@v4
+      
+      - name: Test Manifests
+        shell: pwsh
+        run: |
+          $manifests = Get-ChildItem -Path "bucket" -Filter "*.json"
+          $failed = @()
+          
+          foreach ($manifest in $manifests) {
+            Write-Host "Testing $($manifest.Name)..."
+            try {
+              $json = Get-Content $manifest.FullName | ConvertFrom-Json
+              if (-not $json.version) {
+                throw "Missing version field"
+              }
+              if (-not $json.url) {
+                throw "Missing url field"
+              }
+              Write-Host "✓ $($manifest.Name) is valid" -ForegroundColor Green
+            } catch {
+              Write-Host "✗ $($manifest.Name) failed: $_" -ForegroundColor Red
+              $failed += $manifest.Name
+            }
+          }
+          
+          if ($failed.Count -gt 0) {
+            Write-Error "Failed manifests: $($failed -join ', ')"
+            exit 1
+          }
