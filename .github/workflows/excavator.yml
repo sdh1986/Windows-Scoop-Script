@@ -24,17 +24,27 @@ jobs:
       - name: Setup Scoop
         uses: MinoruSekine/setup-scoop@v4
         with:
-          scoop_checkup: 'true'
+          scoop_checkup: 'false'  # Disable checkup to avoid warnings
       
       - name: Install Dependencies
         run: |
-          scoop install git
-          scoop bucket add main
+          # Check if git is already installed
+          if (!(scoop which git)) {
+            scoop install git
+          }
+          
+          # Check if main bucket exists before adding
+          $buckets = scoop bucket list
+          if ($buckets -notcontains 'main') {
+            scoop bucket add main
+          }
       
       - name: Configure Git
+        shell: pwsh
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
+          git config --global credential.helper manager
       
       - name: Update Manifests
         id: excavate
@@ -55,14 +65,22 @@ jobs:
           
           # Install checkver script if not present
           if (-not (Test-Path "bin\checkver.ps1")) {
+            Write-Host "Downloading checkver.ps1..."
             New-Item -ItemType Directory -Force -Path "bin" | Out-Null
             Invoke-WebRequest -Uri "https://raw.githubusercontent.com/ScoopInstaller/Scoop/master/bin/checkver.ps1" -OutFile "bin\checkver.ps1"
           }
           
           # Install auto-pr script if not present
           if (-not (Test-Path "bin\auto-pr.ps1")) {
+            Write-Host "Downloading auto-pr.ps1..."
             New-Item -ItemType Directory -Force -Path "bin" | Out-Null
             Invoke-WebRequest -Uri "https://raw.githubusercontent.com/ScoopInstaller/Scoop/master/bin/auto-pr.ps1" -OutFile "bin\auto-pr.ps1"
+          }
+          
+          # Download required supporting files
+          if (-not (Test-Path "bin\checkver.ps1")) {
+            Write-Error "Failed to download checkver.ps1"
+            exit 1
           }
           
           # Run checkver and auto-update
