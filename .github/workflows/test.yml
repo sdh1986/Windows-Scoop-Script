@@ -1,0 +1,82 @@
+name: Tests
+
+on:
+  pull_request:
+    paths:
+      - 'bucket/**'
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - 'bucket/**'
+
+jobs:
+  test:
+    name: Test Manifests
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup
+        shell: pwsh
+        run: |
+          # 下载测试脚本
+          New-Item -ItemType Directory -Force -Path "bin" | Out-Null
+          Invoke-WebRequest -Uri "https://raw.githubusercontent.com/ScoopInstaller/Scoop/master/bin/test.ps1" -OutFile "bin\test.ps1"
+          
+          # 下载必要的库
+          New-Item -ItemType Directory -Force -Path "lib" | Out-Null
+          $libs = @('json', 'manifest')
+          foreach ($lib in $libs) {
+            $url = "https://raw.githubusercontent.com/ScoopInstaller/Scoop/master/lib/$lib.ps1"
+            Invoke-WebRequest -Uri $url -OutFile "lib\$lib.ps1"
+          }
+      
+      - name: Test Manifests
+        shell: pwsh
+        run: |
+          $errors = @()
+          
+          Get-ChildItem bucket\*.json | ForEach-Object {
+            $manifest = $_
+            Write-Host "Testing $($manifest.Name)..."
+            
+            try {
+              $json = Get-Content $manifest -Raw | ConvertFrom-Json
+              
+              # 基本验证
+              if (!$json.version) { throw "Missing version" }
+              if (!$json.description) { throw "Missing description" }
+              if (!$json.homepage) { throw "Missing homepage" }
+              if (!$json.license) { throw "Missing license" }
+              
+              # URL 验证
+              if (!$json.url -and !$json.architecture) {
+                throw "Missing url or architecture"
+              }
+              
+              # Checkver 验证
+              if (!$json.checkver) {
+                Write-Warning "$($manifest.Name): Missing checkver"
+              }
+              
+              # Autoupdate 验证
+              if ($json.checkver -and !$json.autoupdate) {
+                Write-Warning "$($manifest.Name): Has checkver but missing autoupdate"
+              }
+              
+              Write-Host "  [OK]" -ForegroundColor Green
+            }
+            catch {
+              Write-Host "  [FAIL] $_" -ForegroundColor Red
+              $errors += "$($manifest.Name): $_"
+            }
+          }
+          
+          if ($errors.Count -gt 0) {
+            Write-Host "`nErrors found:" -ForegroundColor Red
+            $errors | ForEach-Object { Write-Host $_ }
+            exit 1
+          }
