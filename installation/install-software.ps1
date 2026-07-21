@@ -1,7 +1,11 @@
 # Install Software
 function Install-Software {
   $SOFTWARE_NAMES = @("scoop-cn/aria2", "scoop-cn/dark", "scoop-cn/innounp", 
+<<<<<<< HEAD
   "scoop-cn/wecom", "scoop-cn/wechat")
+=======
+  "scoop-cn/scoop-search", "scoop-cn/wecom", "scoop-cn/wechat")
+>>>>>>> 987f2be (commit)
 
   $installed = @()
   $failed = @()
