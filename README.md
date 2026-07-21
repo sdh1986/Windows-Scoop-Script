@@ -23,7 +23,7 @@
 ```powershell
 # 在线安装
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
-irm https://bucket.company.shgryl.com/shendonghu/Install-Software/-/raw/master/Scoop-Installer.ps1 | iex;exit
+irm https://raw.giteeusercontent.com/sdhsparke/online-installer/raw/master/Online-ScoopInstaller.ps1 | iex;exit
 ```
 ```
 # 线下安装
