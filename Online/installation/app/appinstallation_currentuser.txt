@@ -1,3 +1,0 @@
-https://ghfast.top/https://raw.githubusercontent.com/duzyn/scoop-cn/refs/heads/master/bucket/aria2.json
-https://ghfast.top/https://raw.githubusercontent.com/duzyn/scoop-cn/refs/heads/master/bucket/dark.json
-https://ghfast.top/https://raw.githubusercontent.com/duzyn/scoop-cn/refs/heads/master/bucket/innounp.json

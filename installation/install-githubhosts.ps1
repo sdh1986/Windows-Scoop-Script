@@ -1,0 +1,83 @@
+function Install-Githubhosts {
+    # Parameters for the function
+    param(
+        [string]$DownloadUrl = 'https://fgh.company.shgryl.com/hosts.txt',
+        [string]$HostsFilePath = 'C:\Windows\System32\drivers\etc\hosts',
+        [string]$BackupSuffix = '.backup'
+    )
+
+    # Function to download a file from a URL to a destination
+    function DownloadFile([string]$Url, [string]$Destination) {
+        try {
+            Invoke-WebRequest -Uri $Url -OutFile $Destination
+            return $true
+        }
+        catch {
+            Write-Host "Download Failed: $_"
+            return $false
+        }
+    }
+
+    # Function to check if a file is in use by another process
+    function CheckFileInUse([string]$FilePath) {
+        try {
+            $file = [System.io.File]::Open($FilePath, 'Open', 'Read', 'None')
+            $file.Close()
+            return $false
+        }
+        catch {
+            return $true
+        }
+    }
+
+    # Function to validate if a line is a valid entry for a hosts file (IPv4 or IPv6)
+    function IsValidHostEntry([string]$Line) {
+        $pattern = '^\d{1,3}(\.\d{1,3}){3}\s+\S+|^([0-9a-fA-F]{0,4}:){2,7}[0-9a-fA-F]{0,4}\s+\S+'
+        return $Line -match $pattern
+    }
+
+    # Function to merge the downloaded content with the existing hosts file
+    function MergeHostsFile([string]$DownloadPath, [string]$HostsPath) {
+        $originalContent = Get-Content $HostsPath
+        $downloadedContent = Get-Content $DownloadPath
+
+        # Filter and collect valid new entries
+        $validNewEntries = $downloadedContent | Where-Object { IsValidHostEntry -Line $_ } | Where-Object { $originalContent -notcontains $_ }
+
+        # Check if there are any valid new entries to add
+        if ($validNewEntries.Count -gt 0) {
+            # Check if the hosts file is not in use
+            if (-not (CheckFileInUse -FilePath $HostsPath)) {
+                # Backup the original hosts file before making changes
+                $backupPath = "$HostsPath$BackupSuffix"
+                Copy-Item -Path $HostsPath -Destination $backupPath -Force
+
+                # Append new valid entries to the hosts file
+                $newLines = @('', '# Begin New Content') + $validNewEntries
+                ($originalContent + $newLines) | Set-Content $HostsPath
+                Write-Host "hosts file updated. Backup stored in: $backupPath"
+            }
+            else {
+                Write-Host "Unable to update hosts file because it is occupied."
+            }
+        }
+        else {
+            Write-Host "No valid new content needs to be added to the hosts file."
+        }
+    }
+
+    # Main script logic
+    $downloadPath = Join-Path -Path $env:TEMP -ChildPath 'hosts.txt'
+    # Download the file and proceed if successful
+    if (DownloadFile -Url $DownloadUrl -Destination $downloadPath) {
+        MergeHostsFile -DownloadPath $downloadPath -HostsPath $HostsFilePath
+    }
+    else {
+        Write-Host "File download failed."
+    }
+    # Clean up by removing the downloaded file
+    Remove-Item -Path $downloadPath -Force
+}
+
+# Call the function to start the installation process
+Install-Githubhosts
