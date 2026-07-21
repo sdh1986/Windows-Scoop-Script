@@ -21,11 +21,12 @@
 ### 安装
 
 ```powershell
-# 线上安装
+# 在线安装
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
 irm https://bucket.company.shgryl.com/shendonghu/Install-Software/-/raw/master/Scoop-Installer.ps1 | iex;exit
-
-# 双击 scoop-install.cmd，或：
+```
+```
+# 线下安装
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
 .\scoop-install.ps1
 ```
