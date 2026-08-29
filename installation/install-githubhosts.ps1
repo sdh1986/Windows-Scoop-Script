@@ -1,7 +1,7 @@
 function Install-Githubhosts {
     # Parameters for the function
     param(
-        [string]$DownloadUrl = 'https://fgh.company.shgryl.com/hosts.txt',
+        [string]$DownloadUrl = 'https://hosts.gitcdn.top/hosts.txt',
         [string]$HostsFilePath = 'C:\Windows\System32\drivers\etc\hosts',
         [string]$BackupSuffix = '.backup'
     )
