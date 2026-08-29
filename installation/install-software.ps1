@@ -1,7 +1,11 @@
 # Install Software
 function Install-Software {
+  #$SOFTWARE_NAMES = @("scoop-cn/aria2", "scoop-cn/dark", "scoop-cn/innounp", 
+  #"scoop-cn/scoop-search")
   $SOFTWARE_NAMES = @("scoop-cn/aria2", "scoop-cn/dark", "scoop-cn/innounp", 
-  "scoop-cn/scoop-search")
+  "scoop-bucket/cms6", "sparkebucket/univpn-np", "sparkebucket/xylink-np", 
+  "sparkebucket/sinopharmwps365-np", "sparkebucket/sdriveclient-np", 
+  "scoop-cn/wecom", "scoop-cn/wechat")
 
   $installed = @()
   $failed = @()
