@@ -34,9 +34,12 @@ function Install-Depend {
     Write-Host "Using Proxy URL: $GHPROXY" -ForegroundColor Yellow
     # --- Detection Logic End ---
 
-    $GSUDO = "$GHPROXY/https://raw.githubusercontent.com/duzyn/scoop-cn/refs/heads/master/bucket/gsudo.json"
-    $7ZIP = "$GHPROXY/https://raw.githubusercontent.com/duzyn/scoop-cn/refs/heads/master/bucket/7zip.json"
-    $GIT = "$GHPROXY/https://raw.githubusercontent.com/duzyn/scoop-cn/refs/heads/master/bucket/git.json"
+    #$GSUDO = "$GHPROXY/https://raw.githubusercontent.com/duzyn/scoop-cn/refs/heads/master/bucket/gsudo.json"
+    #$7ZIP = "$GHPROXY/https://raw.githubusercontent.com/duzyn/scoop-cn/refs/heads/master/bucket/7zip.json"
+    #$GIT = "$GHPROXY/https://raw.githubusercontent.com/duzyn/scoop-cn/refs/heads/master/bucket/git.json"
+    $GSUDO = "https://cdn.jsdelivr.net/gh/duzyn/scoop-cn@master/bucket/gsudo.json"
+    $7ZIP = "https://cdn.jsdelivr.net/gh/duzyn/scoop-cn@master/bucket/7zip.json"
+    $GIT = "https://cdn.jsdelivr.net/gh/duzyn/scoop-cn@master/bucket/git.json"
     $REPO = "$GHPROXY/https://github.com/ScoopInstaller/Scoop"
     $ICONTEXT = "$GHPROXY/https://raw.githubusercontent.com/duzyn/scoop-cn/master/scripts/7-zip/install-context.reg"
     $UCONTEXT = "$GHPROXY/https://raw.githubusercontent.com/duzyn/scoop-cn/master/scripts/7-zip/uninstall-context.reg"
