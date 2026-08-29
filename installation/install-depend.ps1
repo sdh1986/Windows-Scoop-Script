@@ -37,7 +37,7 @@ function Install-Depend {
     $GSUDO = "$GHPROXY/https://raw.githubusercontent.com/duzyn/scoop-cn/refs/heads/master/bucket/gsudo.json"
     $7ZIP = "$GHPROXY/https://raw.githubusercontent.com/duzyn/scoop-cn/refs/heads/master/bucket/7zip.json"
     $GIT = "$GHPROXY/https://raw.githubusercontent.com/duzyn/scoop-cn/refs/heads/master/bucket/git.json"
-    $REPO = "https://github.com/ScoopInstaller/Scoop"
+    $REPO = "$GHPROXY/https://github.com/ScoopInstaller/Scoop"
     $ICONTEXT = "$GHPROXY/https://raw.githubusercontent.com/duzyn/scoop-cn/master/scripts/7-zip/install-context.reg"
     $UCONTEXT = "$GHPROXY/https://raw.githubusercontent.com/duzyn/scoop-cn/master/scripts/7-zip/uninstall-context.reg"
 
