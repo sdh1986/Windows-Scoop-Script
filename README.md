@@ -27,7 +27,6 @@ irm https://cdn.jsdelivr.net/gh/sdh1986/Windows-Scoop-Script@master/onlineInstal
 ```
 ```
 # 线下安装
-Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
 .\scoop-install.ps1
 ```
 
